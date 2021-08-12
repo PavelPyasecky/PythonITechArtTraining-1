@@ -41,3 +41,9 @@ def login():
                            title='Sign In',
                            form=form,
                            providers=app.config['OPENID_PROVIDERS'])
+
+
+@app.rout('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
