@@ -12,7 +12,6 @@ from .forms import LoginForm
 @app.route('/index')
 @login_required
 def index():
-    user = {'nickname': 'Miguel'}
     posts = [
         {
             'author': {'nickname': 'John'},
@@ -25,7 +24,6 @@ def index():
     ]
     return render_template("index.html",
                            title='Home',
-                           user=user,
                            posts=posts)
 
 
@@ -50,7 +48,7 @@ def login():
                            providers=app.config['OPENID_PROVIDERS'])
 
 
-@app.rout('/logout')
+@app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('index'))
