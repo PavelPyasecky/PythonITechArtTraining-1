@@ -4,11 +4,7 @@ from hashlib import md5
 from flask_login import UserMixin
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from config import Config
-
-from . import db, login
-
-GRAVATAR_URL = Config.GRAVATAR_URL
+from . import app, db, login
 
 
 class User(UserMixin, db.Model):
@@ -21,7 +17,7 @@ class User(UserMixin, db.Model):
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self):
-        return "<User {}>".format(self.username)
+        return f"<User {self.username}>"
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -31,7 +27,9 @@ class User(UserMixin, db.Model):
 
     def avatar(self, size):
         digest = md5(self.email.lower().encode("utf-8")).hexdigest()
-        return GRAVATAR_URL + "{}?d={}&s={}".format(digest, "identicon", size)
+        return app.config["GRAVATAR_URL"] + "{}?d={}&s={}".format(
+            digest, "identicon", size
+        )
 
 
 class Post(db.Model):
@@ -41,9 +39,9 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
 
     def __repr__(self):
-        return "<Post {}>".format(self.body)
+        return f"<Post {self.body}>"
 
 
 @login.user_loader
-def load_user(id):
-    return User.query.get(int(id))
+def load_user(user_id):
+    return User.query.get(int(user_id))
