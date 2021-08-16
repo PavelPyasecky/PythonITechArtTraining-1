@@ -6,6 +6,8 @@ from flask_sqlalchemy import SQLAlchemy
 
 from config import Config
 
+from .logger import initialize_file_logs, initialize_send_mail_logs
+
 app = Flask(__name__)
 app.config.from_object(Config)
 
@@ -17,5 +19,7 @@ login.login_view = "login"
 
 recaptcha = ReCaptcha(app=app)
 
+initialize_file_logs(app)
+initialize_send_mail_logs(app)
 
 from . import errors, forms, models, routes  # noqa: E402,F401; isort: stop

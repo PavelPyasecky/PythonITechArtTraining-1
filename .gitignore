@@ -146,3 +146,6 @@ cython_debug/
 
 # SQLite3 DB
 app.db
+
+# Logs
+logs/
