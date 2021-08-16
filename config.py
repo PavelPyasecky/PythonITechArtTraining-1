@@ -25,3 +25,11 @@ class Config:
     RECAPTCHA_SIZE = "normal"  # 'normal' - default
     RECAPTCHA_SITE_KEY = "6LfPUPobAAAAAPvB8GjZT3QuHtzwYOJ1UyBVbQhH"
     RECAPTCHA_SECRET_KEY = "6LfPUPobAAAAADWFq3kACZJdHe-ZNLmWluUnKKta"
+
+    # Mail settings
+    MAIL_SERVER = os.environ.get("MAIL_SERVER")
+    MAIL_PORT = int(os.environ.get("MAIL_PORT") or 25)
+    MAIL_USE_TLS = os.environ.get("MAIL_USE_TLS") is not None
+    MAIL_USERNAME = os.environ.get("MAIL_USERNAME")
+    MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD")
+    ADMINS = ["pyasecky2010pavel@mail.ru"]

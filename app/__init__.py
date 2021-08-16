@@ -18,4 +18,4 @@ login.login_view = "login"
 recaptcha = ReCaptcha(app=app)
 
 
-from . import forms, models, routes  # noqa: E402,F401; isort: stop
+from . import errors, forms, models, routes  # noqa: E402,F401; isort: stop
