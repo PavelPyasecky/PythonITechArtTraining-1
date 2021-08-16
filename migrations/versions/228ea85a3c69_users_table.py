@@ -1,7 +1,7 @@
 """users table
 
 Revision ID: 228ea85a3c69
-Revises: 
+Revises:
 Create Date: 2021-08-09 15:24:53.145599
 
 """
@@ -26,7 +26,9 @@ def upgrade():
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_index(op.f("ix_user_email"), "user", ["email"], unique=True)
-    op.create_index(op.f("ix_user_username"), "user", ["username"], unique=True)
+    op.create_index(
+        op.f("ix_user_username"), "user", ["username"], unique=True
+    )
     # ### end Alembic commands ###
 
 
