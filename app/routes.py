@@ -5,8 +5,8 @@ from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.urls import url_parse
 
 from . import app, db, recaptcha
-from .forms import EditProfileForm, LoginForm, RegistrationForm
-from .models import User
+from .forms import EditProfileForm, LoginForm, PostForm, RegistrationForm
+from .models import Post, User
 
 
 @app.before_request
@@ -16,18 +16,21 @@ def before_request():
         db.session.commit()
 
 
-@app.route("/")
-@app.route("/index")
+@app.route("/", methods=["GET", "POST"])
+@app.route("/index", methods=["GET", "POST"])
 @login_required
 def index():
-    posts = [
-        {"author": {"nickname": "John"}, "body": "Beautiful day in Portland!"},
-        {
-            "author": {"nickname": "Susan"},
-            "body": "The Avengers movie was so cool!",
-        },
-    ]
-    return render_template("index.html", title="Home", posts=posts)
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post(body=form.post.data, author=current_user)
+        db.session.add(post)
+        db.session.commit()
+        flash("Your post is now live!")
+        return redirect(url_for("index"))
+    posts = current_user.followed_posts().all()
+    return render_template(
+        "index.html", title="Home page", form=form, posts=posts
+    )
 
 
 @app.route("/login", methods=["GET", "POST"])
