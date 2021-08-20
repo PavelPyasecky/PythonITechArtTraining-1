@@ -38,4 +38,4 @@ class Config:
     ADMINS = ["pyasecky2012pavel@mail.ru"]
 
     # Pagination settings
-    POSTS_PER_PAGE = 3
+    POSTS_PER_PAGE = 25
